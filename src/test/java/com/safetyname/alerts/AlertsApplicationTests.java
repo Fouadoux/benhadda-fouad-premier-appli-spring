@@ -1,4 +1,4 @@
-package com.safetyname.alerts.alerts;
+package com.safetyname.alerts;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

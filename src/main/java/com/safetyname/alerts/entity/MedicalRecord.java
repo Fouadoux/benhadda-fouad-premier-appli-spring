@@ -1,7 +1,6 @@
-package com.safetyname.alerts.alerts.enity;
+package com.safetyname.alerts.entity;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalRecord {

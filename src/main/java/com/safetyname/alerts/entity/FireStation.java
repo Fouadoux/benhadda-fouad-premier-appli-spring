@@ -1,15 +1,15 @@
-package com.safetyname.alerts.alerts.enity;
+package com.safetyname.alerts.entity;
 
 public class FireStation {
-    private String adress;
+    private String address;
     private int station;
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getStation() {
