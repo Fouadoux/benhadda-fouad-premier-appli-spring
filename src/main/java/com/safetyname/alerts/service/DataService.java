@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.safetyname.alerts.utility.Constante.*;
+
+
 
 @Service
 public class DataService {
@@ -21,12 +24,15 @@ public class DataService {
     private List<FireStation> firestations;
     private List<MedicalRecord> medicalRecords;
     private final ObjectMapper mapper = new ObjectMapper();
-    private final String filePath = "src/main/resources/data.json";
+    //private final String filePath = "src/main/resources/data.json";
 
     public DataService() {
+    }
+    //faire un boolean pour le test unitaite. si true ok
+    public boolean readJsonFile(String filePath) throws IOException{
         try {
             // lecture du fichier Json avec un map car on a plusieurs structure
-            Map<String, Object> data = mapper.readValue(new File(filePath),
+            Map<String, Object> data = mapper.readValue(new File(FILEPATH),
                     new TypeReference<Map<String, Object>>() {
                     });
 
@@ -37,10 +43,11 @@ public class DataService {
             });
             this.medicalRecords = mapper.convertValue(data.get("medicalrecords"), new TypeReference<List<MedicalRecord>>() {
             });
-
+            return true;
 
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -56,15 +63,17 @@ public class DataService {
         return medicalRecords;
     }
 
-    public void saveData() {
+    public boolean saveData(String filePath) {
         try {
             Map<String, Object> data = new HashMap<>();
             data.put("persons", persons);
             data.put("firestations",firestations);
             data.put("medicalrecords",medicalRecords);
             mapper.writeValue(new File(filePath), data);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
