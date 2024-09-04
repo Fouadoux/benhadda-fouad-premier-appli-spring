@@ -25,6 +25,7 @@ class DataServiceTest {
 
     private DataService dataService;
     boolean result;
+
     @BeforeEach
     void setUp() throws IOException {
         dataService= new DataService();
@@ -60,15 +61,13 @@ class DataServiceTest {
     void getMedicalRecords() {
         List<MedicalRecord> medicalRecords =dataService.getMedicalRecords();
 
-        assertNotNull(medicalRecords, "La liste des fireStations ne devrait pas être nulle après la lecture du fichier JSON");
+        assertNotNull(medicalRecords, "La liste des medicalRecords ne devrait pas être nulle après la lecture du fichier JSON");
         assertEquals(23, medicalRecords.size(), "La taille de la liste des fireStations devrait être de 13");
 
     }
 
     @Test
     void saveData() throws IOException {
-
-        dataService.readJsonFile(FILEPATH);
 
         // Vider le fichier avant le test
         FileWriter fileWriter = new FileWriter(FILEPATHTEST);
