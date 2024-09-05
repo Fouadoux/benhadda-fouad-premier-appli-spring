@@ -1,8 +1,15 @@
 package com.safetyname.alerts.entity;
 
+import java.util.Objects;
+
 public class FireStation {
     private String address;
     private int station;
+
+    public FireStation(String address, int station){
+        this.address=address;
+        this.station=station;
+    }
 
     public String getAddress() {
         return address;
@@ -19,4 +26,6 @@ public class FireStation {
     public void setStation(int station) {
         this.station = station;
     }
+
+
 }

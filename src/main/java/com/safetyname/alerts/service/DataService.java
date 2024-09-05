@@ -35,7 +35,7 @@ public class DataService {
     }
 
 
-    public boolean readJsonFile(String filePath) throws IOException{
+    public boolean readJsonFile(String filePath) {
         try {
             // lecture du fichier Json avec un map car on a plusieurs structure
             logger.debug("reading JSON file from : {}",FILEPATH );

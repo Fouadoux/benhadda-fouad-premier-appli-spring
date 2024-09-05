@@ -42,7 +42,7 @@ public class PersonController {
             List<Person> persons = dataService.getPersons();
             for(Person person:persons){
                 if (person.equals(newPerson)){
-                    logger.error("Conflict in addPerson - Existing person: {}", person);
+                    logger.error("Conflict in addPerson - Existing person: {} {}", person.getFirstName(),person.getLastName());
                     return new ResponseEntity<>("Conflit", HttpStatus.CONFLICT);
                 }
             }
@@ -59,8 +59,8 @@ public class PersonController {
     // Mettre à jour une personne existante
     @PutMapping
     public ResponseEntity<String> updatePerson(@RequestBody Person updatedPerson) {
-        if ((updatedPerson.getFirstName().isEmpty() ||
-                updatedPerson.getLastName().isEmpty())) {
+        if (updatedPerson.getFirstName().isEmpty() ||
+                updatedPerson.getLastName().isEmpty()) {
             logger.error("Bad request from updatePerson - Missing required fields: {}", updatedPerson);
             return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
         }
@@ -76,7 +76,7 @@ public class PersonController {
                     person.setPhone(updatedPerson.getPhone());
                     person.setEmail(updatedPerson.getEmail());
                     dataService.saveData(FILEPATH);
-                     logger.info("Person updated successfully");
+                    logger.info("Person updated successfully");
                     return new ResponseEntity<>("Person updated successfully", HttpStatus.OK);
                 }
             }
@@ -107,7 +107,7 @@ public class PersonController {
             }
         } catch (Exception e) {
             logger.error("Failed to delete person");
-            return new ResponseEntity<>("Failed to delete person: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to delete person : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
