@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 import static com.safetyname.alerts.utility.Constante.*;
@@ -86,4 +88,35 @@ public class DataService {
             return false;
         }
     }
+
+    public List<Person> getPersonsByStationNumber (int stationNumber)
+    {
+        List<FireStation> fireStations = getFireStations();
+        List<String> address = fireStations.stream()
+                .filter(fs-> fs.getStation()==stationNumber)
+                .map(FireStation::getAddress)
+                .toList();
+        return getPersons().stream()
+                .filter(person -> address.contains(person.getAddress()))
+                .collect(Collectors.toList());
+    }
+
+    public List<MedicalRecord> getMedicalrecordByPerson(List<Person> objects){
+
+        List<MedicalRecord> medicalRecords =getMedicalRecords();
+        return medicalRecords.stream().filter(record->objects.stream()
+                .anyMatch(person -> person.getFirstName().equals(record.getFirstName())&&
+                        person.getLastName().equals(record.getLastName()))).toList();
+
+    }
+
+    public List<Person> getPersonByAddress(String address){
+        return getPersons().stream()
+                .filter(person -> person.getAddress().equals(address))
+                .collect(Collectors.toList());
+    }
+
+
+
+
 }

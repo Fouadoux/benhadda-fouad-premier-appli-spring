@@ -4,22 +4,22 @@ import com.safetyname.alerts.entity.Person;
 
 import java.util.List;
 
-public class FirestationReponse {
-    private List<Person> persons;
+public class FirestationResponse {
+    private List<PersonInfo> persons;
     private long adultCount;
     private long childCount;
 
-    public FirestationReponse(List<Person> persons, long adultCount, long childCount) {
+    public FirestationResponse(List<PersonInfo> persons, long adultCount, long childCount) {
         this.persons = persons;
         this.adultCount = adultCount;
         this.childCount = childCount;
     }
 
-    public List<Person> getPersons() {
+    public List<PersonInfo> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
+    public void setPersons(List<PersonInfo> persons) {
         this.persons = persons;
     }
 

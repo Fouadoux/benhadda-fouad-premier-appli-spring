@@ -1,7 +1,12 @@
 package com.safetyname.alerts.controller;
 
 
+import com.safetyname.alerts.dto.FirestationResponse;
+import com.safetyname.alerts.dto.PersonInfo;
 import com.safetyname.alerts.entity.FireStation;
+import com.safetyname.alerts.entity.MedicalRecord;
+import com.safetyname.alerts.entity.Person;
+import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
@@ -99,5 +104,26 @@ public class FirestationController {
 
     }
 
+    @GetMapping
+    public ResponseEntity<FirestationResponse> getPersonsCoveredByFirestation(@RequestParam("stationNumber") int stationNumber) {
+        List<Person> personsCovered = dataService.getPersonsByStationNumber(stationNumber);
+        List<MedicalRecord> medicalRecords = dataService.getMedicalrecordByPerson(personsCovered);
+
+        long adultCount = medicalRecords.stream()
+                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) >= 18)
+                .count();
+
+        long childCount = medicalRecords.stream()
+                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) < 18)
+                .count();
+
+        List<PersonInfo> personInfoList = personsCovered.stream()
+                .map(person -> new PersonInfo(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()))
+                .collect(Collectors.toList());
+
+        FirestationResponse response = new FirestationResponse(personInfoList, adultCount, childCount);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 }
