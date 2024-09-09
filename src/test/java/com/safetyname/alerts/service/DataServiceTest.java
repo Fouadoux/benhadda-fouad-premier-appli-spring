@@ -1,21 +1,14 @@
 package com.safetyname.alerts.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.internal.function.text.Concatenate;
 import com.safetyname.alerts.entity.FireStation;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
-import com.safetyname.alerts.utility.Constante.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.PrivateKey;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.safetyname.alerts.utility.Constante.*;

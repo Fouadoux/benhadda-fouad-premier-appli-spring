@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,7 +42,7 @@ class PersonControllerTest {
     }
 
     @Test
-    void updatePersonTest() throws Exception {
+    void testUpdatePersonTest_Success() throws Exception {
         Person updatedPerson = new Person("Fouad","Benhadda","21 rue pasteur",
                 "paris","fouad@gmail.com",75007,"0673648562");
         mockMvc.perform(put("/person")
@@ -55,7 +54,7 @@ class PersonControllerTest {
     }
 
     @Test
-    void failUpdatePersonTest() throws Exception{
+    void testUpdatePersonTest_Fail() throws Exception{
         Person updatedPerson = new Person("Fouad","benhadda","21 rue pasteur",
                 "paris","fouad@gmail.com",75007,"0673648562");
         mockMvc.perform(put("/person")
@@ -86,11 +85,9 @@ class PersonControllerTest {
     }
 
     @Test
-    void addPerson() throws Exception {
+    void testAddPerson_success() throws Exception {
         Person newPerson = new Person("Pierre", "Dupont", "14 rue tintin",
                 "bruxelles", "54321", 55009, "0673648562");
-        mockMvc.perform(post("/persons"));
-
         mockMvc.perform(post("/person")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newPerson)))
@@ -110,7 +107,7 @@ class PersonControllerTest {
 
     }
     @Test
-    void testPersonDuplicate()throws Exception{
+    void testPerson_Conflit()throws Exception{
         Person addPerson = new Person("Fouad","Benhadda","19 rue pasteur",
                 "Chalon-sur-saone","fouad@gmail.com",71100,"0673648562");
         mockMvc.perform(post("/person")

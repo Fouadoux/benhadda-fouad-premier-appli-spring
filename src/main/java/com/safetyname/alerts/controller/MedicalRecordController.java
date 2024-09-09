@@ -13,6 +13,10 @@ import java.util.List;
 
 import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
+
+
+@RestController
+@RequestMapping("/medicalRecord")
 public class MedicalRecordController {
 
     private static final Logger logger= LogManager.getLogger(MedicalRecordController.class);
@@ -26,8 +30,7 @@ public class MedicalRecordController {
 
     @PostMapping
     public ResponseEntity<String> addMedicalRecord(@RequestBody MedicalRecord newMedicalRecord){
-        if(newMedicalRecord.getFirstName().isEmpty() || newMedicalRecord.getLastName().isEmpty()
-                ||newMedicalRecord.getBirthdate().isEmpty()){
+        if(newMedicalRecord.getFirstName().isEmpty() || newMedicalRecord.getLastName().isEmpty()){
             logger.error("Bad request from add medical record");
             return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
         }
@@ -35,14 +38,14 @@ public class MedicalRecordController {
             List<MedicalRecord> medicalRecords=dataService.getMedicalRecords();
             for(MedicalRecord medicalRecord : medicalRecords){
                 if(medicalRecord.equals(newMedicalRecord)){
-                    logger.error("Conflict in addPerson - Existing person: {}", medicalRecord);
+                    logger.error("Conflict add MEDICAL RECORD - Existing person: {}", medicalRecord);
                     return new ResponseEntity<>("Conflit", HttpStatus.CONFLICT);
                 }
             }
             medicalRecords.add(newMedicalRecord);
             dataService.saveData(FILEPATH);
             logger.info("medical record added successfully");
-            return new ResponseEntity<>("Medical record added sucessfully",HttpStatus.CREATED);
+            return new ResponseEntity<>("Medical record added successfully",HttpStatus.CREATED);
         }catch (Exception e) {
             logger.error("Failed to add medical record");
             return new ResponseEntity<>("Failed to add medical record: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

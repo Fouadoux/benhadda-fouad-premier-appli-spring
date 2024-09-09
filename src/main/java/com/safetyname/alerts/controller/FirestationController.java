@@ -52,29 +52,7 @@ public class FirestationController {
         }
 
     }
-/*
-    @PostMapping
-    public ResponseEntity<String> AddMapFireStation(@RequestBody Map<String, Integer> newFirestations) {
-        try {
-            List<FireStation> fireStations = dataService.getFireStations();
-            for (Map.Entry<String, Integer> entry : newFirestations.entrySet()) {
-                FireStation newFireStation = new FireStation(entry.getKey(), entry.getValue());
-                for (FireStation fireStation : fireStations) {
-                    if (fireStation.getAddress().equals(newFireStation.getAddress())) {
-                        logger.error("Conflict in addPerson - Existing person: {}", newFireStation.getAddress());
-                        return new ResponseEntity<>("Conflit", HttpStatus.CONFLICT);
-                    }
-                }
-                fireStations.add(newFireStation);
-            }
-            dataService.saveData(FILEPATH);
-            return new ResponseEntity<>("Fire Station added successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("Failed to add person", e);
-            return new ResponseEntity<>("Failed to add person: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-*/
+
     @PutMapping
     public ResponseEntity<String> updateFirestation(@RequestBody FireStation updateFirestation) throws Exception {
         if ((updateFirestation.getAddress().isEmpty() || updateFirestation.getStation() == 0)) {
@@ -91,8 +69,8 @@ public class FirestationController {
                     return new ResponseEntity<>("Fire station updated successfully", HttpStatus.OK);
                 }
             }
-            logger.error("fire station not found - Existing fire station: {}, {}", updateFirestation.getAddress(), updateFirestation.getStation());
-            return new ResponseEntity<>("Person not found", HttpStatus.NOT_FOUND);
+            logger.error("fire station address not found - Existing fire station: {}, {}", updateFirestation.getAddress(), updateFirestation.getStation());
+            return new ResponseEntity<>("Fire station address not found", HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             logger.error("Failed to update fire station", e);
             return new ResponseEntity<>("Failed to update fire station: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,7 +78,8 @@ public class FirestationController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteFirestation(@RequestBody String address) throws Exception {
+    public ResponseEntity<String> deleteFirestation(@RequestParam String address)  {
+
         try {
             List<FireStation> fireStations = dataService.getFireStations();
             boolean removed = fireStations.removeIf(fireStation ->
