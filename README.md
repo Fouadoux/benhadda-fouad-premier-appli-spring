@@ -6,3 +6,4 @@ Créez votre première application web avec Spring Boot
 - Test unitaire de PersonController (88% de couv)
 - Test unitaire de DataService (91% de couv)
 - Ajout des logs
+- creation des endpoints firestation et medicalrecord
