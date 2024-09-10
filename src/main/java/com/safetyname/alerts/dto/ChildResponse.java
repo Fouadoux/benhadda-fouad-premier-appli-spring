@@ -10,7 +10,7 @@ public class ChildResponse {
 
     public ChildResponse(String firstName, String lastName, int age, List<String> family) {
         this.firstName = firstName;
-        LastName = lastName;
+        this.LastName = lastName;
         this.age = age;
         this.family = family;
     }

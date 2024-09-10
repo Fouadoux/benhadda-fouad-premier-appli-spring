@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,14 +52,11 @@ public class ChildAlertContoller {
                 .collect(Collectors.toList());
 
         List<ChildResponse> childs = medicalRecords.stream()
-                .map(medicalRecord -> {
-                    int age = CalculateAgeService.calculateAge(medicalRecord.getBirthdate());
-                    return new AbstractMap.SimpleEntry<>(medicalRecord, age);
-                })
-                .filter(entry -> entry.getValue() < 18)  // Filtrer les mineurs
-                .map(entry -> new ChildResponse(entry.getKey().getFirstName(),
-                        entry.getKey().getLastName(),
-                        entry.getValue(),
+                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) < 18)  // Filtrer les mineurs
+                .map(medicalRecord -> new ChildResponse(
+                        medicalRecord.getFirstName(),
+                        medicalRecord.getLastName(),
+                        CalculateAgeService.calculateAge(medicalRecord.getBirthdate()),  // Calculer l'âge à nouveau
                         famille))
                 .collect(Collectors.toList());
 

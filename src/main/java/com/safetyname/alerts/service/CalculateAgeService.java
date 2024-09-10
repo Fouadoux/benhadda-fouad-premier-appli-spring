@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException;
 
 public class CalculateAgeService {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    private static final Logger logger = LogManager.getLogger(DataService.class);
+    private static final Logger logger = LogManager.getLogger(CalculateAgeService.class);
 
     public static int calculateAge(String birthdateStr) {
         try {

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class FirestationController {
 
     private DataService dataService;
 
-    public FirestationController(DataService dataService) throws IOException {
+    public FirestationController(DataService dataService)  {
         this.dataService = dataService;
         this.dataService.readJsonFile(FILEPATH);
     }
@@ -59,7 +58,7 @@ public class FirestationController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateFirestation(@RequestBody FireStation updateFirestation) throws Exception {
+    public ResponseEntity<String> updateFirestation(@RequestBody FireStation updateFirestation)  {
         if ((updateFirestation.getAddress().isEmpty() || updateFirestation.getStation() == 0)) {
             logger.error("Bad request from update fire station - Missing required fields: {} {} ", updateFirestation.getAddress(), updateFirestation.getStation());
             return new ResponseEntity<>("Bad rerquest", HttpStatus.BAD_REQUEST);
@@ -106,9 +105,18 @@ public class FirestationController {
 
     @GetMapping
     public ResponseEntity<FirestationResponse> getPersonsCoveredByFirestation(@RequestParam("stationNumber") int stationNumber) {
-        List<Person> personsCovered = dataService.getPersonsByStationNumber(stationNumber);
-        List<MedicalRecord> medicalRecords = dataService.getMedicalrecordByPerson(personsCovered);
+        logger.info("Requête reçue pour la caserne numéro : {}", stationNumber);
 
+        List<Person> personsCovered = dataService.getPersonsByStationNumber(stationNumber);
+        if (personsCovered == null || personsCovered.isEmpty()) {
+            logger.warn("Aucune personne trouvée pour la caserne numéro : {}", stationNumber);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<MedicalRecord> medicalRecords = dataService.getMedicalrecordByPerson(personsCovered);
+        if (medicalRecords == null || medicalRecords.isEmpty()) {
+            logger.warn("Aucun dossier médical trouvé pour les personnes de la caserne numéro : {}", stationNumber);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         long adultCount = medicalRecords.stream()
                 .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) >= 18)
                 .count();
@@ -120,6 +128,7 @@ public class FirestationController {
         List<PersonInfo> personInfoList = personsCovered.stream()
                 .map(person -> new PersonInfo(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()))
                 .collect(Collectors.toList());
+
 
         FirestationResponse response = new FirestationResponse(personInfoList, adultCount, childCount);
 
