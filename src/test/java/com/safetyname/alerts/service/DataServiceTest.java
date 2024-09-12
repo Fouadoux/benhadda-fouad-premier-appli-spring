@@ -20,7 +20,7 @@ class DataServiceTest {
     boolean result;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp()  {
         dataService = new DataService();
         result = dataService.readJsonFile("src/test/resources/dataRead.json");
     }
@@ -32,7 +32,7 @@ class DataServiceTest {
     }
 
     @Test
-    public void testReadJsonDataFile_fail() throws IOException {
+    public void testReadJsonDataFile_fail()  {
         result = dataService.readJsonFile("src/test/resources/dataReadFail.json");
         assertFalse(result, "La méthode readJsonFile devrait retourner false pour indiquer que la lecture à échoué du fichier JSON.");
 
@@ -41,7 +41,7 @@ class DataServiceTest {
 
 
     @Test
-    void getPersons() throws IOException {
+    void getPersons()  {
 
         List<Person> persons = dataService.getPersons();
 
@@ -85,7 +85,7 @@ class DataServiceTest {
     }
 
     @Test
-    void testSaveData_fail() throws IOException {
+    void testSaveData_fail()  {
         boolean write = dataService.saveData("src/test/resources/dataWriteFail.json");
         assertFalse(write, "La méthode saveData retourne false.");
     }
@@ -132,5 +132,46 @@ class DataServiceTest {
         assertNotNull(persons);
         assertEquals(0, persons.size());
     }
+
+    @Test
+    public void testGetSationByAddress_successfully(){
+        int station = dataService.getSationByAddress("1509 Culver St");
+        assertEquals(3,station);
+    }
+
+
+    @Test
+    public void testGetSationByAddress_wrongAddress(){
+        int station = dataService.getSationByAddress("159 Culver St");
+        assertEquals(-1,station);
+    }
+
+    @Test
+    public void testGetSationByAddress_noContent(){
+        int station = dataService.getSationByAddress("");
+        assertEquals(-1,station);
+    }
+
+    @Test
+    public void testGetPersonByLastName_successfully(){
+        List<Person> persons =dataService.getPersonByLastName("Boyd");
+        assertNotNull(persons);
+        assertEquals(6,persons.size());
+    }
+
+    @Test
+    public void testGetPersonByLastName_fail(){
+        List<Person> persons =dataService.getPersonByLastName("Bod");
+        assertNotNull(persons);
+        assertEquals(0,persons.size());
+    }
+
+    @Test
+    public void testGetPersonByLastName_noContent(){
+        List<Person> persons =dataService.getPersonByLastName("");
+        assertNotNull(persons);
+        assertEquals(0,persons.size());
+    }
+
 
 }

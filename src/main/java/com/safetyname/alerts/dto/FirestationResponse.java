@@ -1,15 +1,21 @@
 package com.safetyname.alerts.dto;
 
 import com.safetyname.alerts.entity.Person;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class FirestationResponse {
     private List<PersonInfo> persons;
     private long adultCount;
     private long childCount;
 
-    public FirestationResponse(List<PersonInfo> persons, long adultCount, long childCount) {
+ /*   public FirestationResponse(List<PersonInfo> persons, long adultCount, long childCount) {
         this.persons = persons;
         this.adultCount = adultCount;
         this.childCount = childCount;
@@ -37,5 +43,5 @@ public class FirestationResponse {
 
     public void setChildCount(long childCount) {
         this.childCount = childCount;
-    }
+    }*/
 }

@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
@@ -45,7 +45,7 @@ public class FireController {
         List<MedicalRecord> medicalRecords=dataService.getMedicalrecordByPerson(persons); // je recup les dossier medical des personne a l'adresse en arg
         int station = dataService.getSationByAddress(address);
 
-        List<FireInfo> fireInfos = new ArrayList<>();
+       /* List<FireInfo> fireInfos = new ArrayList<>();
 
         for (Person person : persons) {
             for (MedicalRecord record : medicalRecords) {
@@ -61,6 +61,20 @@ public class FireController {
                 }
             }
         }
+*/
+
+        List<FireInfo> fireInfos = persons.stream()
+                .flatMap(person -> medicalRecords.stream()
+                        .filter(record -> record.getFirstName().equals(person.getFirstName()) &&
+                                record.getLastName().equals(person.getLastName()))
+                        .map(record -> new FireInfo(
+                                person.getLastName(),
+                                person.getAddress(),
+                                CalculateAgeService.calculateAge(record.getBirthdate()),
+                                record.getMedications(),
+                                record.getAllergies()
+                        )))
+                .collect(Collectors.toList());
 
         FireResponse response =new FireResponse(fireInfos,station);
         return new ResponseEntity<>(response, HttpStatus.OK);

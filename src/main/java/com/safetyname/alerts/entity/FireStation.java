@@ -1,13 +1,21 @@
 package com.safetyname.alerts.entity;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class FireStation {
     private String address;
     private int station;
 
 
-    public FireStation()
+  /*  public FireStation()
     {}
 
 
@@ -32,5 +40,5 @@ public class FireStation {
         this.station = station;
     }
 
-
+*/
 }

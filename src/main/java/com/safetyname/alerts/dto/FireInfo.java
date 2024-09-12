@@ -1,7 +1,13 @@
 package com.safetyname.alerts.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+@Getter
+@Setter
+@AllArgsConstructor
 public class FireInfo {
     private String lastName;
     private String phone;
@@ -9,7 +15,7 @@ public class FireInfo {
     private List<String> medications;
     private List<String> allergies;
 
-    public FireInfo(String lastName ,String phone, int age, List<String> medications,  List<String> allergies) {
+  /*  public FireInfo(String lastName ,String phone, int age, List<String> medications,  List<String> allergies) {
         this.lastName = lastName;
         this.phone = phone;
         this.medications = medications;
@@ -55,5 +61,5 @@ public class FireInfo {
 
     public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
-    }
+    }*/
 }

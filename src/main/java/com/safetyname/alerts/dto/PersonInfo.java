@@ -1,12 +1,19 @@
 package com.safetyname.alerts.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class PersonInfo {
     private String firstName;
     private String lastName;
     private String address;
     private String phone;
 
-    public PersonInfo(String firstName, String lastName, String address, String phone) {
+ /*   public PersonInfo(String firstName, String lastName, String address, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -44,5 +51,5 @@ public class PersonInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
+    }*/
 }

@@ -1,7 +1,6 @@
 package com.safetyname.alerts.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.safetyname.alerts.entity.FireStation;
+
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,20 +11,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.when;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @WebMvcTest(CommunityEmailController.class)
 class CommunityEmailControllerTest {
     @Autowired
@@ -34,8 +32,6 @@ class CommunityEmailControllerTest {
     @MockBean
     DataService dataService;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    List<FireStation> fireStations;
 
     @BeforeEach
     void setUp() {
@@ -50,11 +46,12 @@ class CommunityEmailControllerTest {
     void getEmailByCity() throws Exception {
 
         mockMvc.perform(get("/communityEmail?city=city1")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0]").value("john@example.com"))
                 .andExpect(jsonPath("$[1]").value("jane@example.com"));
     }
+
     @Test
     void getEmailByCity_fail() throws Exception {
 
@@ -62,11 +59,12 @@ class CommunityEmailControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
-    void getEmailByCity_cityNotFound() throws Exception{
+    void getEmailByCity_cityNotFound() throws Exception {
 
         mockMvc.perform(get("/communityEmail?city=city2")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 }

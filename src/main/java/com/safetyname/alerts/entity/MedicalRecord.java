@@ -1,9 +1,15 @@
 package com.safetyname.alerts.entity;
 
 
-import java.util.List;
-import java.util.Objects;
+import lombok.*;
 
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class MedicalRecord {
     private String firstName;
     private String lastName;
@@ -11,7 +17,7 @@ public class MedicalRecord {
     private List<String> medications;
     private List<String> allergies;
 
-    public MedicalRecord() {
+ /*   public MedicalRecord() {
     }
 
     public MedicalRecord(String firstName, String lastName, String birthdate, List<String> allergies, List<String> medications) {
@@ -73,5 +79,5 @@ public class MedicalRecord {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, birthdate);
-    }
+    }*/
 }

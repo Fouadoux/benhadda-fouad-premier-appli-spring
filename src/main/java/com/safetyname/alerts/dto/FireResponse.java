@@ -1,12 +1,19 @@
 package com.safetyname.alerts.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class FireResponse {
-   private List<FireInfo> fireinfos;
-   private int stationNumber;
+   private List<FireInfo> fireInfos;
+   private int station;
 
-    public FireResponse(List<FireInfo> fireinfos, int stationNumber) {
+  /*  public FireResponse(List<FireInfo> fireinfos, int stationNumber) {
         this.fireinfos = fireinfos;
         this.stationNumber = stationNumber;
     }
@@ -25,5 +32,5 @@ public class FireResponse {
 
     public void setFireinfos(List<FireInfo> fireinfos) {
         this.fireinfos = fireinfos;
-    }
+    }*/
 }

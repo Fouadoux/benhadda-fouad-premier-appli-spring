@@ -32,16 +32,24 @@ public class CommunityEmailController {
     @GetMapping
     public ResponseEntity<List<String>> getEmailByCity(@RequestParam("city") String city){
         logger.info("Requête reçue pour la ville : {}", city);
-        if(city.isEmpty()){
+        if(city == null || city.trim().isEmpty()){
             logger.warn("bad request");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List <Person> persons=dataService.getPersons();
+        if (persons.isEmpty()) {
+            logger.warn("Aucune personne trouvée pour la ville : {}", city);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // 404 Not Found si aucune personne trouvée
+        }
+
+
         List<String> personEmails = persons.stream()
                 .filter(person -> person.getCity().equalsIgnoreCase(city))
                 .map(Person::getEmail)
                 .collect(Collectors.toList());
+
         if(personEmails.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(personEmails, HttpStatus.OK);
     }
 }

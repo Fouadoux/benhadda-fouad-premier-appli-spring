@@ -120,15 +120,29 @@ public class DataService {
     }
 
     public int getSationByAddress(String address) {
+        if (address == null || address.isEmpty()) {
+            logger.warn("L'adresse est null ou vide. Aucune station ne sera recherché.");
+            return -1;
+        }
         List<FireStation> fireStations = getFireStations();
         return fireStations.stream()
                 .filter(fireStation -> fireStation.getAddress().equals(address))
                 .map(FireStation::getStation)
                 .findFirst()
                 .orElse(-1);
-
     }
 
+    public List<Person> getPersonByLastName(String lastName){
+        logger.info("lance la recherche des personnes par rapport au nom");
+        if (lastName == null || lastName.isEmpty()) {
+            logger.warn("Le nom est null ou vide. Aucune personne ne sera recherché.");
+            return Collections.emptyList();
+        }
+        List<Person> persons =getPersons();
+        return  persons.stream()
+                .filter(person -> person.getLastName().equals(lastName))
+                .collect(Collectors.toList());
+    }
 
 
 

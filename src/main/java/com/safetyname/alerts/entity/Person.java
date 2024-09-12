@@ -1,7 +1,13 @@
 package com.safetyname.alerts.entity;
 
-import java.util.Objects;
+import lombok.*;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Person {
     private String firstName;
     private String lastName;
@@ -11,7 +17,7 @@ public class Person {
     private int zip=0;
     private String phone;
 
-    public Person(){
+ /*   public Person(){
 
     }
     public Person(String firstName, String lastName, String address, String city, String email, int zip, String phone) {
@@ -98,5 +104,5 @@ public class Person {
     public int hashCode() {
         return Objects.hash(firstName, lastName, address, city, email, phone, zip);
     }
-
+*/
 }
