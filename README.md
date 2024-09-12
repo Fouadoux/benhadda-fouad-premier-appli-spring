@@ -7,3 +7,5 @@ Créez votre première application web avec Spring Boot
 - Test unitaire de DataService (91% de couv)
 - Ajout des logs
 - creation des endpoints firestation et medicalrecord
+- url 6/7
+- test unitaire des URL(6/7) fait
