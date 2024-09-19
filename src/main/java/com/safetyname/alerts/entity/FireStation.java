@@ -10,35 +10,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * Entity representing a fire station.
+ * <p>
+ * This class encapsulates information about a fire station,
+ * including the address it serves and its station number.
+ * <p>
+ * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
+ * getters, setters, an all-arguments constructor, and a no-arguments constructor.
+ * Make sure Lombok is properly configured in your development environment.
+ */
+
 public class FireStation {
     private String address;
     private int station;
-
-
-  /*  public FireStation()
-    {}
-
-
-    public FireStation(String address, int station){
-        this.address=address;
-        this.station=station;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getStation() {
-        return station;
-    }
-
-    public void setStation(int station) {
-        this.station = station;
-    }
-
-*/
 }

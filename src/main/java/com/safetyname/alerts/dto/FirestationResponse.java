@@ -7,6 +7,16 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object representing the response from a fire station request.
+ * <p>
+ * This class encapsulates information about the persons covered by a specific fire station,
+ * including the list of persons, the count of adults, and the count of children.
+ * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
+ * getters, setters and an all-arguments constructor.
+ * Make sure Lombok is properly configured in your development environment.
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,33 +25,4 @@ public class FirestationResponse {
     private long adultCount;
     private long childCount;
 
- /*   public FirestationResponse(List<PersonInfo> persons, long adultCount, long childCount) {
-        this.persons = persons;
-        this.adultCount = adultCount;
-        this.childCount = childCount;
-    }
-
-    public List<PersonInfo> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<PersonInfo> persons) {
-        this.persons = persons;
-    }
-
-    public long getAdultCount() {
-        return adultCount;
-    }
-
-    public void setAdultCount(long adultCount) {
-        this.adultCount = adultCount;
-    }
-
-    public long getChildCount() {
-        return childCount;
-    }
-
-    public void setChildCount(long childCount) {
-        this.childCount = childCount;
-    }*/
 }

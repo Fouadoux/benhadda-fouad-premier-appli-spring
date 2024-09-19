@@ -7,9 +7,18 @@ import lombok.Setter;
 import java.util.List;
 
 
+/**
+ * Data Transfer Object representing detailed personal information based on last name.
+ * <p>
+ * This class encapsulates information about a person, including
+ * their last name, address, age, email, medications, and allergies.
+ * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
+ * getters, setters.
+ * Make sure Lombok is properly configured in your development environment.
+ */
+
 @Getter
 @Setter
-
 public class PersonInfoLastNameResponse {
 
     private String lastName;

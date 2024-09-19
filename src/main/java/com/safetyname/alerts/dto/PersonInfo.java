@@ -4,6 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data Transfer Object representing basic personal information.
+ * <p>
+ * This class encapsulates basic details about a person, including
+ * their first name, last name, address, and phone number.
+ * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
+ * getters, setters and an all-arguments constructor.
+ * Make sure Lombok is properly configured in your development environment.
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,44 +22,4 @@ public class PersonInfo {
     private String lastName;
     private String address;
     private String phone;
-
- /*   public PersonInfo(String firstName, String lastName, String address, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.phone = phone;
-    }
-
-    // Getters et setters
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }*/
 }

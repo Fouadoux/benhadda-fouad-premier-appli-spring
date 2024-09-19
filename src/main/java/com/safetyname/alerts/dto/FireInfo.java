@@ -5,6 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+
+/**
+ * Data Transfer Object representing fire-related information for a person.
+ * <p>
+ * This class encapsulates information about a person relevant in a fire incident,
+ * including their last name, phone number, age, medications, and allergies.
+ * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
+ * getters, setters and an all-arguments constructor.
+ * Make sure Lombok is properly configured in your development environment.
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,52 +25,4 @@ public class FireInfo {
     private int age;
     private List<String> medications;
     private List<String> allergies;
-
-  /*  public FireInfo(String lastName ,String phone, int age, List<String> medications,  List<String> allergies) {
-        this.lastName = lastName;
-        this.phone = phone;
-        this.medications = medications;
-        this.allergies = allergies;
-        this.age=age;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public List<String> getMedications() {
-        return medications;
-    }
-
-    public void setMedications(List<String> medications) {
-        this.medications = medications;
-    }
-
-    public List<String> getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(List<String> allergies) {
-        this.allergies = allergies;
-    }*/
 }
