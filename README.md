@@ -9,3 +9,5 @@ Créez votre première application web avec Spring Boot
 - creation des endpoints firestation et medicalrecord
 - url 6/7
 - test unitaire des URL(6/7) fait
+- url 7/7 + test unitaires
+- test d'intégration
