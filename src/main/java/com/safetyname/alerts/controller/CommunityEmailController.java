@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller for managing email addresses of residents in a specific city.
@@ -35,7 +34,6 @@ public class CommunityEmailController {
      */
     public CommunityEmailController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller to manage alerts related to children at a specific address.
@@ -31,7 +30,7 @@ public class ChildAlertController {
 
     private static final Logger logger = LogManager.getLogger(ChildAlertController.class);
 
-    private final DataService dataService;
+    private DataService dataService;
 
     /**
      * Constructor for ChildAlertController that initializes the data service.
@@ -40,7 +39,6 @@ public class ChildAlertController {
      */
     public ChildAlertController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

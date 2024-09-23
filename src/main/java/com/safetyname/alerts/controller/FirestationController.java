@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller for managing fire stations.
@@ -38,7 +37,6 @@ public class FirestationController {
      */
     public FirestationController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

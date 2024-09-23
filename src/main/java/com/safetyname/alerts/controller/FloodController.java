@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller for managing flood-related information.
@@ -36,7 +35,6 @@ public class FloodController {
      */
     public FloodController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

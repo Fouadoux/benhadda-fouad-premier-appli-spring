@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller for retrieving person information based on last name.
@@ -37,7 +36,6 @@ public class PersonInfoLastNameController {
      */
     public PersonInfoLastNameController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 /**
  * REST controller for managing medical records.
@@ -35,7 +34,6 @@ public class MedicalRecordController {
      */
     public MedicalRecordController(DataService dataService) throws IOException {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

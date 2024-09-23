@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import static com.safetyname.alerts.utility.Constante.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +32,6 @@ public class PersonController {
      */
     public PersonController(DataService dataService) throws IOException {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

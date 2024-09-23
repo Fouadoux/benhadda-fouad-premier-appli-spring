@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import static com.safetyname.alerts.utility.Constante.FILEPATH;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,6 @@ public class PhoneAlertController {
      */
     public PhoneAlertController(DataService dataService) {
         this.dataService = dataService;
-        this.dataService.readJsonFile();
     }
 
     /**

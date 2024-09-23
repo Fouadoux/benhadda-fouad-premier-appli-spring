@@ -6,6 +6,7 @@ import com.safetyname.alerts.entity.FireStation;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +57,7 @@ public class DataService {
      *
      * @return true if the data was successfully read, false otherwise.
      */
-
+    @PostConstruct
     public boolean readJsonFile(){
         return readJsonFile(filePathRead);
     }
