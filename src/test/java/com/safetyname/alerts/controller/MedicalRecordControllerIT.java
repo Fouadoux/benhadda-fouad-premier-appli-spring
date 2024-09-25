@@ -3,6 +3,7 @@ package com.safetyname.alerts.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ public class MedicalRecordControllerIT {
     private MockMvc mockMvc;
 
     @Autowired
-    private DataService dataService;
+    private IDataService dataService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

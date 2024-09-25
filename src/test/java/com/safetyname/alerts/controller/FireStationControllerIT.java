@@ -3,6 +3,7 @@ package com.safetyname.alerts.controller;
 import com.safetyname.alerts.entity.FireStation;
 import com.safetyname.alerts.service.DataService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,7 @@ public class FireStationControllerIT {
     private MockMvc mockMvc;
 
     @Autowired
-    private DataService dataService;
+    private IDataService dataService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

@@ -3,6 +3,7 @@ package com.safetyname.alerts.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ class MedicalRecordControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DataService dataService;
+    private IDataService dataService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private List<MedicalRecord> medicalRecords;

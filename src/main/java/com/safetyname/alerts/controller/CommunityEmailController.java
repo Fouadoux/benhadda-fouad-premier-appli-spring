@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,14 @@ import java.util.stream.Collectors;
 public class CommunityEmailController {
 
     private static final Logger logger = LogManager.getLogger(CommunityEmailController.class);
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructor for CommunityEmailController that initializes the data service.
      *
      * @param dataService The data service used to access information about persons.
      */
-    public CommunityEmailController(DataService dataService) {
+    public CommunityEmailController(IDataService dataService) {
         this.dataService = dataService;
     }
 

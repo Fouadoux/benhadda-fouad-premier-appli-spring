@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class PersonController {
 
     private static final Logger logger = LogManager.getLogger(PersonController.class);
 
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructor for PersonController that initializes the data service.
@@ -30,7 +31,7 @@ public class PersonController {
      * @param dataService The data service used to access person information.
      * @throws IOException If an error occurs while reading the data file.
      */
-    public PersonController(DataService dataService) throws IOException {
+    public PersonController(IDataService dataService) throws IOException {
         this.dataService = dataService;
     }
 

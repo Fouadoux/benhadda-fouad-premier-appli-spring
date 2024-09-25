@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ class ChildAlertControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DataService dataService;
+    private IDataService dataService;
 
     @Autowired
     private ObjectMapper objectMapper;

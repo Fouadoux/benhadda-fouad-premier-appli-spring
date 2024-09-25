@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ class CommunityEmailControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DataService dataService;
+    private IDataService dataService;
 
     private List<Person> personsCovered;
 

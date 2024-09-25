@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -22,14 +23,14 @@ public class PhoneAlertController {
 
     private static final Logger logger = LogManager.getLogger(PhoneAlertController.class);
 
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructs a new PhoneAlertController with the given DataService.
      *
      * @param dataService The DataService used to access person and fire station data.
      */
-    public PhoneAlertController(DataService dataService) {
+    public PhoneAlertController(IDataService dataService) {
         this.dataService = dataService;
     }
 

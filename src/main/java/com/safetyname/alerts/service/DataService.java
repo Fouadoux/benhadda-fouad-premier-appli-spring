@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * during testing to avoid impacting the actual application data.
  */
 @Service
-public class DataService {
+public class DataService implements IDataService {
 
     private static final Logger logger = LogManager.getLogger(DataService.class);
 

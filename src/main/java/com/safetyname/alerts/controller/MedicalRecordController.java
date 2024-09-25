@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class MedicalRecordController {
 
     private static final Logger logger = LogManager.getLogger(MedicalRecordController.class);
 
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructor for MedicalRecordController that initializes the data service.
@@ -32,7 +33,7 @@ public class MedicalRecordController {
      * @param dataService The data service used to access medical records.
      * @throws IOException If an error occurs while reading the data file.
      */
-    public MedicalRecordController(DataService dataService) throws IOException {
+    public MedicalRecordController(IDataService dataService) throws IOException {
         this.dataService = dataService;
     }
 

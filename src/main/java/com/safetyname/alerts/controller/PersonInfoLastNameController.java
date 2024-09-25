@@ -5,6 +5,7 @@ import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,14 @@ public class PersonInfoLastNameController {
 
     private static final Logger logger = LogManager.getLogger(PersonInfoLastNameController.class);
 
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructs a new PersonInfoLastNameController with the given DataService.
      *
      * @param dataService The DataService used to access person and medical record data.
      */
-    public PersonInfoLastNameController(DataService dataService) {
+    public PersonInfoLastNameController(IDataService dataService) {
         this.dataService = dataService;
     }
 

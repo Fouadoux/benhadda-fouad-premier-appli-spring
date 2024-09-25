@@ -34,7 +34,7 @@ class DataServiceTest {
     private static final Logger logger = LogManager.getLogger(DataServiceTest.class);
 
     @Autowired
-    private DataService dataService;
+    private IDataService dataService;
 
     boolean result;
 

@@ -3,6 +3,7 @@ package com.safetyname.alerts.controller;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,10 +42,10 @@ class PersonInfoLastNameControllerTest {
     private static final Logger logger = LogManager.getLogger(PersonInfoLastNameControllerTest.class);
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    DataService dataService;
+    private IDataService dataService;
 
     /**
      * Tests the scenario where persons and medical records are found for a given last name.

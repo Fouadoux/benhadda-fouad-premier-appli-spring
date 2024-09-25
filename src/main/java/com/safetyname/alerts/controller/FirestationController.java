@@ -7,6 +7,7 @@ import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -28,14 +29,14 @@ import java.util.stream.Collectors;
 public class FirestationController {
 
     private static final Logger logger = LogManager.getLogger(FirestationController.class);
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructor for FirestationController that initializes the data service.
      *
      * @param dataService The data service used to access information about fire stations and people.
      */
-    public FirestationController(DataService dataService) {
+    public FirestationController(IDataService dataService) {
         this.dataService = dataService;
     }
 

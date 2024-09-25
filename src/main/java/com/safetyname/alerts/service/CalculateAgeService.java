@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
  * <p>
  * This class provides a method to calculate the age of a person given their birthdate in a specific format.
  */
-public class CalculateAgeService {
+public class CalculateAgeService  {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private static final Logger logger = LogManager.getLogger(CalculateAgeService.class);

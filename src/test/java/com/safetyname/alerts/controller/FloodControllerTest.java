@@ -4,6 +4,7 @@ import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,7 +39,7 @@ class FloodControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DataService dataService;
+    private IDataService dataService;
 
     private List<Person> personList;
     private List<MedicalRecord> medicalRecords;

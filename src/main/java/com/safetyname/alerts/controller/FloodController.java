@@ -5,6 +5,7 @@ import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,14 @@ import java.util.stream.Collectors;
 public class FloodController {
 
     private static final Logger logger = LogManager.getLogger(FloodController.class);
-    private final DataService dataService;
+    private final IDataService dataService;
 
     /**
      * Constructor for FloodController that initializes the data service.
      *
      * @param dataService The data service used to access information about people, addresses, and fire stations.
      */
-    public FloodController(DataService dataService) {
+    public FloodController(IDataService dataService) {
         this.dataService = dataService;
     }
 
