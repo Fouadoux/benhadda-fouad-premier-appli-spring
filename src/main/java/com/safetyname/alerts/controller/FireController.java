@@ -78,7 +78,7 @@ public class FireController {
                                 record.getLastName().equals(person.getLastName()))
                         .map(record -> new FireInfo(
                                 person.getLastName(),
-                                person.getAddress(),
+                                person.getPhone(),
                                 CalculateAgeService.calculateAge(record.getBirthdate()),
                                 record.getMedications(),
                                 record.getAllergies()

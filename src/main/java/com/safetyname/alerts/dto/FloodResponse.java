@@ -1,22 +1,11 @@
 package com.safetyname.alerts.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.List;
 
-/**
- * Data Transfer Object representing the response for households in a flood situation.
- * <p>
- * This class encapsulates information about individuals living in households served by specific fire stations,
- * including their first name, last name, phone number, age, medications, and allergies.
- * <strong>Note:</strong> This class uses Lombok annotations to automatically generate
- * getters, setters.
- * Make sure Lombok is properly configured in your development environment.
- */
 
-@Getter
-@Setter
+
 public class FloodResponse {
     private String firstName;
     private String lastName;
@@ -34,4 +23,51 @@ public class FloodResponse {
         this.allergies = allergies;
     }
 
+   /* public String getFirstName() {
+        return firstName;
+    }*/
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public List<String> getMedications() {
+        return medications;
+    }
+
+    public void setMedications(List<String> medications) {
+        this.medications = medications;
+    }
+
+    public List<String> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(List<String> allergies) {
+        this.allergies = allergies;
+    }
 }

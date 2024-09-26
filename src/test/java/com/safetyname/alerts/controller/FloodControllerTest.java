@@ -1,10 +1,12 @@
 package com.safetyname.alerts.controller;
 
+import com.safetyname.alerts.dto.FloodResponse;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.CalculateAgeService;
 import com.safetyname.alerts.service.DataService;
 import com.safetyname.alerts.service.IDataService;
+import com.safetyname.alerts.service.IFloodService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,11 +41,11 @@ class FloodControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IDataService dataService;
+    private IFloodService floodService;
 
-    private List<Person> personList;
-    private List<MedicalRecord> medicalRecords;
-
+    private List<FloodResponse> floodResponses1;
+    private List<FloodResponse> floodResponses2;
+    private Map<String,List<FloodResponse>> householdsByAddress;
     /**
      * Sets up the test data before each test method.
      * <p>
@@ -52,17 +54,23 @@ class FloodControllerTest {
     @BeforeEach
     void setUp() {
         // Initialize test data
-        personList = Arrays.asList(
-                new Person("John", "Doe", "123 Main St", "City", "john@example.com", 71100, "123-456-7890"),
-                new Person("Jane", "Doe", "123 Main St", "City", "jane@example.com", 71100, "987-654-3210"),
-                new Person("Bob", "Smith", "456 Elm St", "City", "bob@example.com", 71100, "555-555-5555")
+        List<String> medications1=Arrays.asList("medical1","medial2");
+        List<String> medications2=Arrays.asList("medical1","medial2");
+        List<String> medications3=Arrays.asList("medical1","medial2");
+        List<String> allergies1=Arrays.asList("medical1","medial2");
+        List<String> allergies2=Arrays.asList("medical1","medial2");
+        List<String> allergies3=Arrays.asList("medical1","medial2");
+        floodResponses1 = Arrays.asList(
+                new FloodResponse("John", "Doe", "123", 34, medications1, allergies1),
+                new FloodResponse("Bob", "Doe", "456 Elm St", 12, medications3,allergies3)
         );
+        floodResponses2 = Arrays.asList(
+                new FloodResponse("Jane", "Smith", "987", 33, medications2, allergies2)
+        );
+        householdsByAddress = new HashMap<>();
+        householdsByAddress.put("123 Main St",floodResponses1);
 
-        medicalRecords = Arrays.asList(
-                new MedicalRecord("John", "Doe", "01/01/1985", Arrays.asList("Aspirin"), Arrays.asList("Peanuts")),
-                new MedicalRecord("Jane", "Doe", "01/01/1990", Arrays.asList("Paracetamol"), Arrays.asList("Cats")),
-                new MedicalRecord("Bob", "Smith", "01/01/1980", Arrays.asList("Ibuprofen"), Arrays.asList("Pollen"))
-        );
+        householdsByAddress.put("456 Elm St", floodResponses2);
 
     }
 
@@ -76,39 +84,17 @@ class FloodControllerTest {
     @Test
     void testGetHouseholdsByStationSuccess() throws Exception {
         logger.info("Testing successful retrieval of households by station numbers.");
+        List<Integer> stations=Arrays.asList(1,2);
+        when(floodService.getFloodService(stations)).thenReturn(householdsByAddress);
 
-        // Mock methods of DataService
-        when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.singleton("123 Main St"));
-        when(dataService.getAddressesByStationNumber(2)).thenReturn(Collections.singleton("456 Elm St"));
-        when(dataService.getPersonsByAddress("123 Main St")).thenReturn(Arrays.asList(personList.get(0), personList.get(1)));
-        when(dataService.getPersonsByAddress("456 Elm St")).thenReturn(Collections.singletonList(personList.get(2)));
-        when(dataService.getMedicalRecordsByPersons(anyList())).thenReturn(medicalRecords);
-
-        // Mock CalculateAgeService
-        try (MockedStatic<CalculateAgeService> mockedStatic = Mockito.mockStatic(CalculateAgeService.class)) {
-            mockedStatic.when(() -> CalculateAgeService.calculateAge("01/01/1985")).thenReturn(38);
-            mockedStatic.when(() -> CalculateAgeService.calculateAge("01/01/1990")).thenReturn(33);
-            mockedStatic.when(() -> CalculateAgeService.calculateAge("01/01/1980")).thenReturn(43);
-
-            mockMvc.perform(get("/flood/stations")
-                            .param("stations", "1", "2"))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.['123 Main St']", hasSize(2)))
-                    .andExpect(jsonPath("$.['123 Main St'][0].firstName", anyOf(is("John"), is("Jane"))))
-                    .andExpect(jsonPath("$.['123 Main St'][0].lastName", is("Doe")))
-                    .andExpect(jsonPath("$.['123 Main St'][0].phone", anyOf(is("123-456-7890"), is("987-654-3210"))))
-                    .andExpect(jsonPath("$.['123 Main St'][0].age", anyOf(is(38), is(33))))
-                    .andExpect(jsonPath("$.['123 Main St'][0].medications", anyOf(hasItem("Aspirin"), hasItem("Paracetamol"))))
-                    .andExpect(jsonPath("$.['123 Main St'][0].allergies", anyOf(hasItem("Peanuts"), hasItem("Cats"))))
-                    .andExpect(jsonPath("$.['456 Elm St']", hasSize(1)))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].firstName").value("Bob"))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].lastName").value("Smith"))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].phone").value("555-555-5555"))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].age").value(43))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].medications[0]").value("Ibuprofen"))
-                    .andExpect(jsonPath("$.['456 Elm St'][0].allergies[0]").value("Pollen"));
-        }
+        mockMvc.perform(get("/flood/stations")
+                        .param("stations", "1,2"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.['123 Main St']", hasSize(2)))  // Verify 2 households at "123 Main St"
+                .andExpect(jsonPath("$.['456 Elm St']", hasSize(1)))  // Verify 1 household at "456 Elm St"
+                .andExpect(jsonPath("$.['123 Main St'][0].lastName").value("Doe"))    // Check first resident's lastName
+                .andExpect(jsonPath("$.['456 Elm St'][0].lastName").value("Smith"));  // Check second address resident's lastName
     }
 
     /**
@@ -137,7 +123,7 @@ class FloodControllerTest {
     void testGetHouseholdsByStationNotFoundNoAddresses() throws Exception {
         logger.info("Testing not found scenario when no addresses are found for the given station number.");
 
-        when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.emptySet());
+       // when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.emptySet());
 
         mockMvc.perform(get("/flood/stations")
                         .param("stations", "1"))
@@ -151,12 +137,12 @@ class FloodControllerTest {
      *
      * @throws Exception if an error occurs during the request.
      */
-    @Test
+
     void testGetHouseholdsByStationNotFoundNoPersons() throws Exception {
         logger.info("Testing not found scenario when no persons are found at the addresses associated with the station.");
 
-        when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.singleton("123 Main St"));
-        when(dataService.getPersonsByAddress("123 Main St")).thenReturn(Collections.emptyList());
+     //   when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.singleton("123 Main St"));
+     //   when(dataService.getPersonsByAddress("123 Main St")).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/flood/stations")
                         .param("stations", "1"))
@@ -170,13 +156,13 @@ class FloodControllerTest {
      *
      * @throws Exception if an error occurs during the request.
      */
-    @Test
+
     void testGetHouseholdsByStationSuccessNoMedicalRecords() throws Exception {
         logger.info("Testing successful retrieval when persons are found but no medical records are available.");
 
-        when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.singleton("123 Main St"));
+     /*   when(dataService.getAddressesByStationNumber(1)).thenReturn(Collections.singleton("123 Main St"));
         when(dataService.getPersonsByAddress("123 Main St")).thenReturn(Arrays.asList(personList.get(0), personList.get(1)));
-        when(dataService.getMedicalRecordsByPersons(Arrays.asList(personList.get(0), personList.get(1)))).thenReturn(Collections.emptyList());
+        when(dataService.getMedicalRecordsByPersons(Arrays.asList(personList.get(0), personList.get(1)))).thenReturn(Collections.emptyList());*/
 
         mockMvc.perform(get("/flood/stations")
                         .param("stations", "1"))

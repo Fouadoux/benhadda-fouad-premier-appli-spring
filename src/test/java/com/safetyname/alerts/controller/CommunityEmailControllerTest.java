@@ -2,6 +2,7 @@ package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.ICommunityEmailService;
 import com.safetyname.alerts.service.IDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,9 +40,9 @@ class CommunityEmailControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IDataService dataService;
+    private ICommunityEmailService communityEmailService;
 
-    private List<Person> personsCovered;
+    private List<String> personEmails;
 
     /**
      * Sets up the test data before each test method.
@@ -50,11 +51,8 @@ class CommunityEmailControllerTest {
      */
     @BeforeEach
     void setUp() {
-        personsCovered = Arrays.asList(
-                new Person("John", "Doe", "123 Main St", "City1", "john@example.com", 71100, "123-456-7890"),
-                new Person("Jane", "Smith", "456 Oak St", "City1", "jane@example.com", 71100, "987-654-3210")
-        );
-        when(dataService.getPersons()).thenReturn(personsCovered);
+        personEmails = Arrays.asList("john@example.com","jane@example.com");
+
     }
 
     /**
@@ -67,8 +65,11 @@ class CommunityEmailControllerTest {
     @Test
     void testRetrieveEmailsByCitySuccess() throws Exception {
         logger.info("Testing successful retrieval of emails for city: City1");
+        String city= "city1";
 
-        mockMvc.perform(get("/communityEmail?city=City1")
+        when(communityEmailService.getEmailByCity(city)).thenReturn(personEmails);
+
+        mockMvc.perform(get("/communityEmail").param("city",city)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0]").value("john@example.com"))
@@ -86,9 +87,9 @@ class CommunityEmailControllerTest {
     void testRetrieveEmailsByCityBadRequest() throws Exception {
         logger.info("Testing bad request handling for empty city parameter");
 
-        mockMvc.perform(get("/communityEmail?city=")
+        mockMvc.perform(get("/communityEmail").param("city"," ")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     /**
@@ -101,8 +102,13 @@ class CommunityEmailControllerTest {
     @Test
     void testRetrieveEmailsByCityNotFound() throws Exception {
         logger.info("Testing handling of city not found: City2");
+        String city= "city1";
+        String city2= "city2";
 
-        mockMvc.perform(get("/communityEmail?city=City2")
+        when(communityEmailService.getEmailByCity(city)).thenReturn(personEmails);
+
+
+        mockMvc.perform(get("/communityEmail").param("city",city2)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

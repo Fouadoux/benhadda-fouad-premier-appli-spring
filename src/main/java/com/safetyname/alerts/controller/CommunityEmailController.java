@@ -1,10 +1,13 @@
 package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
+import com.safetyname.alerts.service.CommunityEmailService;
 import com.safetyname.alerts.service.DataService;
+import com.safetyname.alerts.service.ICommunityEmailService;
 import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +29,16 @@ import java.util.stream.Collectors;
 public class CommunityEmailController {
 
     private static final Logger logger = LogManager.getLogger(CommunityEmailController.class);
-    private final IDataService dataService;
 
+    private ICommunityEmailService communityEmailService;
     /**
      * Constructor for CommunityEmailController that initializes the data service.
      *
-     * @param dataService The data service used to access information about persons.
+     *  The data service used to access information about persons.
      */
-    public CommunityEmailController(IDataService dataService) {
-        this.dataService = dataService;
+    @Autowired
+    public CommunityEmailController(ICommunityEmailService communityEmailService) {
+        this.communityEmailService = communityEmailService;
     }
 
     /**
@@ -47,29 +51,11 @@ public class CommunityEmailController {
      * @return ResponseEntity containing a list of strings representing residents' emails, or an HTTP error code.
      */
     @GetMapping
-    public ResponseEntity<List<String>> getEmailByCity(@RequestParam("city") String city) {
-        logger.info("Request received for city: {}", city);
+    public ResponseEntity<List<String>> getCommunityEmailService(@RequestParam("city") String city) {
+        List<String> personEmails= communityEmailService.getEmailByCity(city);
 
-        if (city == null || city.trim().isEmpty()) {
-            logger.warn("Invalid request: city not specified");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 400 Bad Request if the city is not specified
-        }
-
-        List<Person> persons = dataService.getPersons();
-        if (persons.isEmpty()) {
-            logger.warn("No person found for city: {}", city);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // 404 Not Found if no person is found
-        }
-
-        // Filter persons from the city and collect their emails
-        List<String> personEmails = persons.stream()
-                .filter(person -> person.getCity().equalsIgnoreCase(city))
-                .map(Person::getEmail)
-                .collect(Collectors.toList());
-
-        if (personEmails.isEmpty()) {
-            logger.warn("No emails found for city: {}", city);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // 404 Not Found if no emails are found
+        if(personEmails.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(personEmails, HttpStatus.OK);

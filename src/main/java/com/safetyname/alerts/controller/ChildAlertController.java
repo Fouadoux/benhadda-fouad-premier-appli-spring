@@ -3,9 +3,7 @@ package com.safetyname.alerts.controller;
 import com.safetyname.alerts.dto.ChildResponse;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
-import com.safetyname.alerts.service.CalculateAgeService;
-import com.safetyname.alerts.service.DataService;
-import com.safetyname.alerts.service.IDataService;
+import com.safetyname.alerts.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -31,15 +29,15 @@ public class ChildAlertController {
 
     private static final Logger logger = LogManager.getLogger(ChildAlertController.class);
 
-    private IDataService dataService;
+    private IChildAlertService childAlertService;
 
     /**
      * Constructor for ChildAlertController that initializes the data service.
      *
-     * @param dataService The data service used to access information about persons and medical records.
+     *   The data service used to access information about persons and medical records.
      */
-    public ChildAlertController(IDataService dataService) {
-        this.dataService = dataService;
+    public ChildAlertController(IChildAlertService childAlertService) {
+        this.childAlertService = childAlertService;
     }
 
     /**
@@ -59,38 +57,12 @@ public class ChildAlertController {
      */
     @GetMapping
     public ResponseEntity<List<ChildResponse>> getChildAlert(@RequestParam("address") String address) {
-        logger.info("Searching for children at address: {}", address);
-
-        List<Person> person = dataService.getPersonsByAddress(address);
-        if (person.isEmpty()) {
-            logger.warn("No person found at address: {}", address);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // No person found
-        }
-
-        List<MedicalRecord> medicalRecords = dataService.getMedicalRecordsByPersons(person);
-
-        // Get the list of adults in the household
-        List<String> family = medicalRecords.stream()
-                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) >= 18)
-                .map(medicalRecord -> medicalRecord.getFirstName() + " " + medicalRecord.getLastName())
-                .collect(Collectors.toList());
-
-        // Get the list of children in the household
-        List<ChildResponse> children = medicalRecords.stream()
-                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) < 18)  // Filter minors
-                .map(medicalRecord -> new ChildResponse(
-                        medicalRecord.getFirstName(),
-                        medicalRecord.getLastName(),
-                        CalculateAgeService.calculateAge(medicalRecord.getBirthdate()),  // Recalculate age
-                        family))
-                .collect(Collectors.toList());
+        List<ChildResponse> children = childAlertService.getChildrenByAddress(address);
 
         if (children.isEmpty()) {
-            logger.warn("No children found at address: {}", address);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        logger.info("Number of children found: {}", children.size());
         return new ResponseEntity<>(children, HttpStatus.OK);
     }
 

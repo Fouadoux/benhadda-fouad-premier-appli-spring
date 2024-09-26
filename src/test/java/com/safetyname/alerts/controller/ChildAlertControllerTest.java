@@ -1,10 +1,8 @@
 package com.safetyname.alerts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.safetyname.alerts.entity.MedicalRecord;
-import com.safetyname.alerts.entity.Person;
-import com.safetyname.alerts.service.DataService;
-import com.safetyname.alerts.service.IDataService;
+import com.safetyname.alerts.service.IChildAlertService;
+import com.safetyname.alerts.dto.ChildResponse; // Assuming you have this class
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,46 +34,37 @@ class ChildAlertControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IDataService dataService;
+    private IChildAlertService childAlertService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
-    private List<Person> persons;
-    private List<MedicalRecord> medicalRecords;
+    private List<ChildResponse> children;
+    private List<ChildResponse> noChildren;
 
     /**
      * Sets up the test data before each test method.
-     * <p>
-     * Initializes the lists of persons and medical records to be used in the tests.
      */
     @BeforeEach
     void setUp() {
-        // Initialize persons
-        persons = Arrays.asList(
-                new Person("John", "Doe", "123 Main St", "City1", "john@example.com", 71100, "123-456-7890"),
-                new Person("Jane", "Doe", "123 Main St", "City1", "jane@example.com", 71100, "987-654-3210")
+        // Initialize mock children response
+        children = Arrays.asList(
+                new ChildResponse("John", "Doe", 14, Arrays.asList("Jane Doe"))
         );
 
-        // Initialize medical records
-        medicalRecords = Arrays.asList(
-                new MedicalRecord("John", "Doe", "01/01/2010", Arrays.asList("med1"), Arrays.asList("allergy1")),  // Child
-                new MedicalRecord("Jane", "Doe", "01/01/1985", Arrays.asList("med2"), Arrays.asList("allergy2"))   // Adult
-        );
+        noChildren = Collections.emptyList();
     }
 
     /**
-     * Tests the scenario where no persons are found at the given address.
+     * Tests the scenario where no children are found at the given address.
      * <p>
-     * Expects a 404 Not Found status when no persons are returned by the DataService.
+     * Expects a 404 Not Found status when no children are returned by the ChildAlertService.
      *
      * @throws Exception if an error occurs during the request.
      */
     @Test
     void testGetChildNoPersonFound() throws Exception {
         String address = "123 Main St";
-        // Simulate no persons found at the address
-        when(dataService.getPersonsByAddress(address)).thenReturn(Collections.emptyList());
+        // Simulate no children found at the address
+        when(childAlertService.getChildrenByAddress(address)).thenReturn(noChildren);
 
         mockMvc.perform(get("/childAlert").param("address", address))
                 .andExpect(status().isNotFound());  // Verifies that the status is 404 Not Found
@@ -92,9 +81,8 @@ class ChildAlertControllerTest {
     void testGetChildChildAndFamilyFound() throws Exception {
         String address = "123 Main St";
 
-        // Simulate persons and medical records found
-        when(dataService.getPersonsByAddress(address)).thenReturn(persons);
-        when(dataService.getMedicalRecordsByPersons(persons)).thenReturn(medicalRecords);
+        // Simulate children and family members found
+        when(childAlertService.getChildrenByAddress(address)).thenReturn(children);
 
         mockMvc.perform(get("/childAlert").param("address", address))
                 .andExpect(status().isOk())  // Verifies that the status is 200 OK
@@ -102,7 +90,7 @@ class ChildAlertControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))  // Verifies that there is one child
                 .andExpect(jsonPath("$[0].firstName").value("John"))
                 .andExpect(jsonPath("$[0].lastName").value("Doe"))
-                .andExpect(jsonPath("$[0].age").value(14))  // Calculated age
+                .andExpect(jsonPath("$[0].age").value(14))  // Verifies the age
                 .andExpect(jsonPath("$[0].family", hasSize(1)))  // Verifies that there is one family member
                 .andExpect(jsonPath("$[0].family[0]").value("Jane Doe"));
     }
@@ -118,13 +106,8 @@ class ChildAlertControllerTest {
     void testGetChildNoChildFound() throws Exception {
         String address = "123 Main St";
 
-        // Simulate only adults at the address
-        List<MedicalRecord> medicalRecordsNoChild = Arrays.asList(
-                new MedicalRecord("Jane", "Doe", "01/01/1985", Arrays.asList("med2"), Arrays.asList("allergy2"))   // Adult
-        );
-
-        when(dataService.getPersonsByAddress(address)).thenReturn(persons);
-        when(dataService.getMedicalRecordsByPersons(persons)).thenReturn(medicalRecordsNoChild);
+        // Simulate no children found at the address
+        when(childAlertService.getChildrenByAddress(address)).thenReturn(noChildren);
 
         mockMvc.perform(get("/childAlert").param("address", address))
                 .andExpect(status().isNotFound());  // Verifies that the status is 404 Not Found
