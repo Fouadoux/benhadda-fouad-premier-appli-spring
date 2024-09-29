@@ -46,7 +46,7 @@ class FireStationServiceTest {
 
         // Simulate medical records associated with the persons
         List<MedicalRecord> medicalRecords = Arrays.asList(
-                new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("med1"), Arrays.asList("allergy1")),git
+                new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("med1"), Arrays.asList("allergy1")),
                 new MedicalRecord("Jane", "Smith", "01/01/2015", Arrays.asList("med2"), Arrays.asList("allergy2"))
         );
         when(dataService.getMedicalRecordsByPersons(personsCovered)).thenReturn(medicalRecords);

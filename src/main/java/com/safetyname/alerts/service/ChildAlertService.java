@@ -12,18 +12,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Service responsible for retrieving children information at a specific address.
+ * <p>
+ * This service fetches the medical records and persons living at a given address,
+ * and identifies those who are minors (under 18), while also returning the list
+ * of adults (family members) living at the same address.
+ */
 @Service
 public class ChildAlertService implements IChildAlertService {
 
     private IDataService dataService;
     private static final Logger logger = LogManager.getLogger(ChildAlertService.class);
 
+    /**
+     * Constructor for ChildAlertService.
+     *
+     * @param dataService The data service used to access information about persons and medical records.
+     */
     @Autowired
     public ChildAlertService(IDataService dataService) {
         this.dataService = dataService;
     }
 
+    /**
+     * Retrieves a list of children living at the specified address.
+     * <p>
+     * For each child found at the address, this method also provides a list of
+     * their family members (adults). If no persons or children are found, an empty list is returned.
+     *
+     * @param address The address to search for children and family members.
+     * @return A list of {@link ChildResponse} objects representing the children and their family members.
+     */
     public List<ChildResponse> getChildrenByAddress(String address) {
         logger.info("Searching for children at address: {}", address);
 

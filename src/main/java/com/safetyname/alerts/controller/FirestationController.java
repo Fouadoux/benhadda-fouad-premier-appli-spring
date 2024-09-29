@@ -12,7 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * REST controller for managing fire stations.
+ * <p>
+ * This controller allows the creation, update, deletion, and retrieval of information about fire stations
+ * and people covered by a specific fire station.
+ * It handles HTTP requests for fire station data and interacts with services to manage data.
+ * </p>
+ */
 
 @RestController
 @RequestMapping("/firestation")
@@ -23,14 +30,29 @@ public class FirestationController {
     private final IFireStationService fireStationService;
     private final IDataService dataService;
 
+    /**
+     * Constructor for FirestationController that initializes the necessary services.
+     *
+     * @param fireStationService The service used for fire station related operations.
+     * @param dataService The data service used for accessing fire station and person data.
+     */
+
     @Autowired
     public FirestationController(IFireStationService fireStationService,IDataService dataService) {
         this.fireStationService = fireStationService;
         this.dataService=dataService;
     }
 
-
-
+    /**
+     * Adds a new fire station.
+     * <p>
+     * This endpoint accepts a FireStation object in the request body and adds it to the system.
+     * If the fire station already exists or if the request is malformed, appropriate error codes are returned.
+     * </p>
+     *
+     * @param newFireStation The FireStation object containing address and station number to be added.
+     * @return A ResponseEntity with the result of the operation: 201 Created, 400 Bad Request, 409 Conflict, or 500 Internal Server Error.
+     */
 
     @PostMapping
     public ResponseEntity<String> addFirestation(@RequestBody FireStation newFireStation) {
@@ -55,6 +77,16 @@ public class FirestationController {
         }
     }
 
+    /**
+     * Updates an existing fire station.
+     * <p>
+     * This endpoint updates the fire station details for the specified address. If the fire station doesn't exist,
+     * or if the request is malformed, appropriate error codes are returned.
+     * </p>
+     *
+     * @param updateFirestation The FireStation object containing the updated details.
+     * @return A ResponseEntity with the result of the operation: 200 OK, 400 Bad Request, 404 Not Found, 409 Conflict, or 500 Internal Server Error.
+     */
 
     @PutMapping
     public ResponseEntity<String> updateFirestation(@RequestBody FireStation updateFirestation) {
@@ -86,6 +118,16 @@ public class FirestationController {
         }
     }
 
+    /**
+     * Deletes a fire station by its address.
+     * <p>
+     * This endpoint deletes the fire station associated with the provided address.
+     * If the fire station is not found, a 404 Not Found response is returned.
+     * </p>
+     *
+     * @param address The address of the fire station to be deleted.
+     * @return A ResponseEntity with the result of the operation: 200 OK, 400 Bad Request, 404 Not Found, or 500 Internal Server Error.
+     */
 
     @DeleteMapping
     public ResponseEntity<String> deleteFirestation(@RequestParam String address) {
@@ -109,6 +151,17 @@ public class FirestationController {
             return new ResponseEntity<>("Failed to delete fire station: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Retrieves information about people covered by a specific fire station.
+     * <p>
+     * This endpoint returns a list of people covered by the fire station, including counts of adults and children.
+     * If no data is found, a 404 Not Found response is returned.
+     * </p>
+     *
+     * @param stationNumber The fire station number to check for coverage.
+     * @return A ResponseEntity containing a FirestationResponse object with the list of people and counts, or 404 Not Found.
+     */
 
 
     @GetMapping

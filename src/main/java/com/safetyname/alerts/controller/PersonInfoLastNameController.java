@@ -22,8 +22,11 @@ import java.util.stream.Collectors;
  * REST controller for retrieving person information based on last name.
  * <p>
  * This controller provides an endpoint to get detailed information about persons with a given last name,
- * including their address, age, email, medications, and allergies.
+ * including their address, age, email, medications, and allergies. It interacts with the IPersonInfoLastNameService
+ * to fetch the necessary data.
+ * </p>
  */
+
 @RestController
 @RequestMapping("/personInfolastName")
 public class PersonInfoLastNameController {
@@ -32,12 +35,28 @@ public class PersonInfoLastNameController {
 
     private final IPersonInfoLastNameService personInfoLastNameService;
 
+    /**
+     * Constructor for PersonInfoLastNameController that initializes the person info service.
+     *
+     * @param personInfoLastNameService The service responsible for retrieving information about persons by last name.
+     */
 
     @Autowired
     public PersonInfoLastNameController(IPersonInfoLastNameService personInfoLastNameService) {
         this.personInfoLastNameService = personInfoLastNameService;
     }
 
+    /**
+     * Retrieves detailed information about persons with the specified last name.
+     * <p>
+     * This endpoint returns a list of {@link PersonInfoLastNameResponse} containing details about persons with the given last name,
+     * such as their address, age, email, medications, and allergies. If no persons are found with the given last name, a 404 HTTP status is returned.
+     * If the last name is null or empty, a 400 HTTP status (Bad Request) is returned.
+     * </p>
+     *
+     * @param lastName The last name to search for.
+     * @return ResponseEntity containing a list of PersonInfoLastNameResponse objects or an error status (400 or 404).
+     */
 
     @GetMapping("/{lastName}")
     public ResponseEntity<List<PersonInfoLastNameResponse>> getPersonInfolastName(@PathVariable String lastName) {

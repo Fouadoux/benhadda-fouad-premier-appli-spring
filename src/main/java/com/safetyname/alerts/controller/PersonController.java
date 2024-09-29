@@ -1,7 +1,7 @@
 package com.safetyname.alerts.controller;
 
 import com.safetyname.alerts.entity.Person;
-import com.safetyname.alerts.service.DataService;
+
 import com.safetyname.alerts.service.IDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
