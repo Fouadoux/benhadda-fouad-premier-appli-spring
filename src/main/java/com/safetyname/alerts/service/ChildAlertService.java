@@ -8,9 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ChildAlertService implements IChildAlertService {
@@ -19,9 +20,10 @@ public class ChildAlertService implements IChildAlertService {
     private static final Logger logger = LogManager.getLogger(ChildAlertService.class);
 
     @Autowired
-    public ChildAlertService (IDataService dataService){
-        this.dataService=dataService;
+    public ChildAlertService(IDataService dataService) {
+        this.dataService = dataService;
     }
+
     public List<ChildResponse> getChildrenByAddress(String address) {
         logger.info("Searching for children at address: {}", address);
 
@@ -32,22 +34,33 @@ public class ChildAlertService implements IChildAlertService {
         }
 
         List<MedicalRecord> medicalRecords = dataService.getMedicalRecordsByPersons(persons);
+        if (medicalRecords.isEmpty()) {
+            logger.warn("No medical records found for persons at address: {}", address);
+            return Collections.emptyList();
+        }
 
-        // Get the list of adults in the household
-        List<String> family = medicalRecords.stream()
-                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) >= 18)
-                .map(medicalRecord -> medicalRecord.getFirstName() + " " + medicalRecord.getLastName())
-                .collect(Collectors.toList());
 
-        // Get the list of children in the household
-        List<ChildResponse> children = medicalRecords.stream()
-                .filter(medicalRecord -> CalculateAgeService.calculateAge(medicalRecord.getBirthdate()) < 18)  // Filter minors
-                .map(medicalRecord -> new ChildResponse(
+        List<String> family = new ArrayList<>();
+        List<ChildResponse> children = new ArrayList<>();
+
+
+        for (MedicalRecord medicalRecord : medicalRecords) {
+            int age = CalculateAgeService.calculateAge(medicalRecord.getBirthdate());
+            if (age >= 18) {
+                family.add(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+            } else {
+                children.add(new ChildResponse(
                         medicalRecord.getFirstName(),
                         medicalRecord.getLastName(),
-                        CalculateAgeService.calculateAge(medicalRecord.getBirthdate()),  // Recalculate age
-                        family))
-                .collect(Collectors.toList());
+                        age,
+                        family
+                ));
+            }
+        }
+
+        if (children.isEmpty()) {
+            logger.warn("No children found at address: {}", address);
+        }
 
         return children;
     }

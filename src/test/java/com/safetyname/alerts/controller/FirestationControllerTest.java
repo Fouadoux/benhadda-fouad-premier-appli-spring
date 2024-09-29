@@ -1,11 +1,14 @@
 package com.safetyname.alerts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetyname.alerts.dto.FirestationResponse;
+import com.safetyname.alerts.dto.PersonInfo;
 import com.safetyname.alerts.entity.FireStation;
 import com.safetyname.alerts.entity.MedicalRecord;
 import com.safetyname.alerts.entity.Person;
 import com.safetyname.alerts.service.DataService;
 import com.safetyname.alerts.service.IDataService;
+import com.safetyname.alerts.service.IFireStationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,9 @@ class FirestationControllerTest {
 
     @MockBean
     private IDataService dataService;
+
+    @MockBean
+    private IFireStationService fireStationService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private List<FireStation> fireStations;
@@ -230,19 +236,16 @@ class FirestationControllerTest {
     @Test
     void testGetPersonsCoveredByFirestationSuccess() throws Exception {
         logger.info("Testing retrieval of persons covered by a fire station.");
-        // Simulate data returned by DataService for persons
-        List<Person> personsCovered = Arrays.asList(
-                new Person("John", "Doe", "123 Main St", "City1", "john@example.com", 71100, "123-456-7890"),
-                new Person("Jane", "Smith", "456 Oak St", "City2", "jane@example.com", 71100, "987-654-3210")
-        );
-        when(dataService.getPersonsByStationNumber(1)).thenReturn(personsCovered);
 
-        // Simulate medical records associated with the persons
-        List<MedicalRecord> medicalRecords = Arrays.asList(
-                new MedicalRecord("John", "Doe", "01/01/1980", Arrays.asList("med1"), Arrays.asList("allergy1")),
-                new MedicalRecord("Jane", "Smith", "01/01/2015", Arrays.asList("med2"), Arrays.asList("allergy2"))
-        );
-        when(dataService.getMedicalRecordsByPersons(personsCovered)).thenReturn(medicalRecords);
+       List < PersonInfo> personInfoList= Arrays.asList(
+               new PersonInfo("John","Doe","123 Main St","123-456-7890"),
+               new PersonInfo("Jane","Smith","123 Main St","123-456-7891")
+       );
+
+        FirestationResponse firestationResponse = new FirestationResponse(personInfoList,1,1);
+        // Simulate data returned by DataService for persons
+        when(fireStationService.getFireStationService(1)).thenReturn(firestationResponse);
+
 
         // Perform the GET request
         mockMvc.perform(get("/firestation?stationNumber=1")

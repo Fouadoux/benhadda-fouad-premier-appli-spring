@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CommunityEmailService implements ICommunityEmailService {
 
     private static final Logger logger = LogManager.getLogger(CommunityEmailController.class);
-    private IDataService dataService;
+    private final IDataService dataService;
 
     @Autowired
     public CommunityEmailService(IDataService dataService){

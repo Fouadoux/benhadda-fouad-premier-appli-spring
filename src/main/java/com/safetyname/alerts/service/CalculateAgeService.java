@@ -28,6 +28,9 @@ public class CalculateAgeService  {
      */
     public static int calculateAge(String birthdateStr) {
         logger.info("Calculating age for birthdate: {}", birthdateStr);
+        if (birthdateStr.trim().isEmpty()){
+            return -1;
+        }
         try {
             LocalDate birthdate = LocalDate.parse(birthdateStr, formatter);
             int age = Period.between(birthdate, LocalDate.now()).getYears();

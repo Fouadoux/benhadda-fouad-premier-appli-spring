@@ -73,7 +73,7 @@ public class FloodService implements IFloodService {
            MedicalRecord medicalRecord = medicalRecordMap.get(key);
 
            // Calculate age and retrieve medications and allergies
-           int age = 0;
+           int age = -1;
            List<String> medications = Collections.emptyList();
            List<String> allergies = Collections.emptyList();
 

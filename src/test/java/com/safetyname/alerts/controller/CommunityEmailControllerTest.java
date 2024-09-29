@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -89,7 +90,7 @@ class CommunityEmailControllerTest {
 
         mockMvc.perform(get("/communityEmail").param("city"," ")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 
     /**
@@ -102,13 +103,13 @@ class CommunityEmailControllerTest {
     @Test
     void testRetrieveEmailsByCityNotFound() throws Exception {
         logger.info("Testing handling of city not found: City2");
-        String city= "city1";
-        String city2= "city2";
-
-        when(communityEmailService.getEmailByCity(city)).thenReturn(personEmails);
+        String city= "city";
 
 
-        mockMvc.perform(get("/communityEmail").param("city",city2)
+        when(communityEmailService.getEmailByCity(city)).thenReturn(Collections.emptyList());
+
+
+        mockMvc.perform(get("/communityEmail").param("city",city)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

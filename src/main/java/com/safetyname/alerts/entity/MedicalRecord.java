@@ -18,7 +18,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MedicalRecord {
@@ -28,4 +28,11 @@ public class MedicalRecord {
     private List<String> medications;
     private List<String> allergies;
 
+    public MedicalRecord(String firstName, String lastName, String birthdate, List<String> medications, List<String> allergies) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
 }

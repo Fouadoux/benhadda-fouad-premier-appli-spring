@@ -206,6 +206,15 @@
       "email": "gramps@email.com",
       "zip": 97451,
       "phone": "841-874-7458"
+    },
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "address": "123 Elm St",
+      "city": "Springfield",
+      "email": "johndoe@example.com",
+      "zip": 54321,
+      "phone": "555-1234"
     }
   ],
   "firestations": [
